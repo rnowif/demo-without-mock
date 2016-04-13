@@ -11,13 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class JdbcUserRepositoryTest {
 
-    private DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.HSQL)
-                .addScript("db/sql/create-db.sql")
-                .build();
-    }
-
     @Test
     public void should_save_user_to_database() {
         DataSource ds = dataSource();
@@ -25,11 +18,21 @@ public class JdbcUserRepositoryTest {
 
         userRepository.save(new User("John", "Doe"));
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-        int count = jdbcTemplate.queryForObject(
-                "select count(*) from user where first_name = 'John' and last_name = 'Doe'",
-                Integer.class
+        assertThat(count(ds, "John", "Doe")).isEqualTo(1);
+    }
+
+    private int count(DataSource ds, final String firstName, final String lastName) {
+        return new JdbcTemplate(ds).queryForObject(
+                "select count(*) from user where first_name = ? and last_name = ?",
+                Integer.class,
+                firstName, lastName
         );
-        assertThat(count).isEqualTo(1);
+    }
+
+    private DataSource dataSource() {
+        return new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.HSQL)
+                .addScript("db/sql/create-db.sql")
+                .build();
     }
 }
