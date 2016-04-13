@@ -23,8 +23,7 @@ public class FakeEchoServer {
                 try {
                     Socket socket = serverSocket.accept();
                     try (DataInputStream reader = getReader(socket); DataOutputStream writer = getWriter(socket)) {
-                        String message = reader.readUTF();
-                        writer.writeUTF(message);
+                        writer.writeUTF(reader.readUTF());
                         writer.flush();
                     }
                 } catch (IOException e) {
