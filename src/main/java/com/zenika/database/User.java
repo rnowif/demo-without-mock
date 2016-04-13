@@ -1,4 +1,4 @@
-package com.zenika;
+package com.zenika.database;
 
 public class User {
 

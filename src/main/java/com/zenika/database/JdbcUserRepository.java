@@ -1,17 +1,18 @@
-package com.zenika;
+package com.zenika.database;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
-public class UserRepository {
+public class JdbcUserRepository implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public UserRepository(DataSource ds) {
+    public JdbcUserRepository(DataSource ds) {
         this.jdbcTemplate = new JdbcTemplate(ds);
     }
 
+    @Override
     public void save(User user) {
         jdbcTemplate.update(
                 "insert into user (first_name, last_name) values (?, ?)",

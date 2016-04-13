@@ -1,4 +1,4 @@
-package com.zenika;
+package com.zenika.network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,13 +15,14 @@ public class EchoClient {
     }
 
     public String sendAndReceive(String message) throws IOException {
-        Socket socket = new Socket(hostname, port);
-        try (DataInputStream reader = getReader(socket); DataOutputStream writer = getWriter(socket)) {
+        try (
+                Socket socket = new Socket(hostname, port);
+                DataInputStream reader = getReader(socket);
+                DataOutputStream writer = getWriter(socket)
+        ) {
             writer.writeUTF(message);
             writer.flush();
             return reader.readUTF();
-        } finally {
-            socket.close();
         }
     }
 

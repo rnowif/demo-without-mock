@@ -1,4 +1,4 @@
-package com.zenika;
+package com.zenika.database;
 
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserRepositoryTest {
+public class JdbcUserRepositoryTest {
 
     private DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
@@ -21,12 +21,15 @@ public class UserRepositoryTest {
     @Test
     public void should_save_user_to_database() {
         DataSource ds = dataSource();
-        UserRepository userRepository = new UserRepository(ds);
+        JdbcUserRepository userRepository = new JdbcUserRepository(ds);
 
         userRepository.save(new User("John", "Doe"));
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-        int count = jdbcTemplate.queryForObject("select count(*) from user where first_name = 'John' and last_name = 'Doe'", Integer.class);
+        int count = jdbcTemplate.queryForObject(
+                "select count(*) from user where first_name = 'John' and last_name = 'Doe'",
+                Integer.class
+        );
         assertThat(count).isEqualTo(1);
     }
 }

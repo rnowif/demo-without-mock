@@ -1,4 +1,4 @@
-package com.zenika;
+package com.zenika.network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

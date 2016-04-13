@@ -1,4 +1,4 @@
-package com.zenika;
+package com.zenika.network;
 
 import org.junit.After;
 import org.junit.Before;
