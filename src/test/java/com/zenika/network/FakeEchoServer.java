@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class FakeEchoServer {
     private final int port;
-    private boolean running;
+    private volatile boolean running;
 
     public FakeEchoServer(int port) {
         this.port = port;
